@@ -24,14 +24,10 @@ B = np.array([[0, 2, 4, 6, 8],
 
 
 
-# use the post decorator directly below this
-@app.post("/calculate")
-# Calculate without NumPy
-    result_no_numpy = calculate_without_numpy(M.tolist(), X.tolist(), B.tolist())
-def f(x):
-    pass
  
 #Implement the formula MX + B
+def f(x):
+    pass
 
 #Have two function one using numpy and another not using numpy
 
@@ -57,6 +53,17 @@ def calculate_without_numpy(M, X, B):
 #Recreate the function with the sigmoid Function
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
+
+# use the post decorator directly below this
+@app.post("/calculate")
+def calculate(matrix_input: MatrixInput):
+    x = np.array(matrix_input.matrix)
+    # Validate matrix dimensions
+    if x.shape != (5, 5):
+        return {"error": "Input matrix must be 5x5."}
+    
+    # Calculate without NumPy
+    result_no_numpy = calculate_without_numpy(M.tolist(), matrix_input.matrix, B.tolist())
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
