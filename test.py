@@ -1,9 +1,15 @@
 from fastapi import FastAPI
-import uvicorn 
-import numpy as np 
+from pydantic import BaseModel
+import uvicorn
+import numpy as np
 
 app = FastAPI()
 
+# Define a Pydantic model for input validation
+class MatrixInput(BaseModel):
+    matrix: list[list[float]]
+
+# Predefined matrices
 
 
 # use the post decorator directly below this
@@ -26,10 +32,4 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 if __name__ == "__main__":
-    uvicorn.run(app)
-
-'''
-    Create a requirements.txt
-    Upload to render
-'''
-
+    uvicorn.run(app, host="0.0.0.0", port=8000)
