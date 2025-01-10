@@ -22,18 +22,12 @@ B = np.array([[0, 2, 4, 6, 8],
               [3, 5, 7, 9, 11],
               [4, 6, 8, 10, 12]])
 
-
-
- 
-#Implement the formula MX + B
-#function with numpy
+# Function with NumPy
 def f(x):
     num = np.matmul(M, x) + B
-    print(num)
+    return num
 
-#Have two function one using numpy and another not using numpy
-
-# function without nummpy
+# Function without NumPy
 def calculate_without_numpy(M, X, B):
     result = []
     for i in range(len(M)):
@@ -44,37 +38,34 @@ def calculate_without_numpy(M, X, B):
         result.append(row)
     return result
 
-
-#Return 
-
-#initialize x as a 5 * 5 matrix
-
-
-#Make a call to the function
-
-#Recreate the function with the sigmoid Function
+# Sigmoid function
 def sigmoid(x):
+    x = np.array(x)  # Ensure x is a NumPy array
     return 1 / (1 + np.exp(-x))
 
-# use the post decorator directly below this
+# POST endpoint for /calculate
 @app.post("/calculate")
 def calculate(matrix_input: MatrixInput):
     x = np.array(matrix_input.matrix)
+    
     # Validate matrix dimensions
     if x.shape != (5, 5):
         return {"error": "Input matrix must be 5x5."}
     
     # Calculate without NumPy
     result_no_numpy = calculate_without_numpy(M.tolist(), matrix_input.matrix, B.tolist())
+    
+    # Calculate with NumPy
     result_numpy = f(x)
+    
+    # Apply sigmoid function
     sigmoid_result = sigmoid(result_numpy)
-    #return result
+    
     return {
-        "matrix_multiplication": result_numpy.tolist(),
-        "non_numpy_multiplication": result_no_numpy,
-        "sigmoid_output": sigmoid_result.tolist()
+        "matrix_multiplication_with_numpy": result_numpy.tolist(),
+        "matrix_multiplication_without_numpy": result_no_numpy,
+        "sigmoid_result": sigmoid_result.tolist()
     }
-
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
