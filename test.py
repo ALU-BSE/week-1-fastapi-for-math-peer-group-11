@@ -26,12 +26,27 @@ B = np.array([[0, 2, 4, 6, 8],
 
 # use the post decorator directly below this
 @app.post("/calculate")
+# Calculate without NumPy
+    result_no_numpy = calculate_without_numpy(M.tolist(), X.tolist(), B.tolist())
 def f(x):
     pass
  
 #Implement the formula MX + B
 
 #Have two function one using numpy and another not using numpy
+
+# function without nummpy
+def calculate_without_numpy(M, X, B):
+    result = []
+    for i in range(len(M)):
+        row = []
+        for j in range(len(X[0])):
+            sum_val = sum(M[i][k] * X[k][j] for k in range(len(X))) + B[i][j]
+            row.append(sum_val)
+        result.append(row)
+    return result
+
+
 #Return 
 
 #initialize x as a 5 * 5 matrix
