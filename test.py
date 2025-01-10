@@ -68,6 +68,12 @@ def calculate(matrix_input: MatrixInput):
     result_no_numpy = calculate_without_numpy(M.tolist(), matrix_input.matrix, B.tolist())
     result_numpy = f(x)
     sigmoid_result = sigmoid(result_numpy)
+    #return result
+    return {
+        "matrix_multiplication": result_numpy.tolist(),
+        "non_numpy_multiplication": result_no_numpy,
+        "sigmoid_output": sigmoid_result.tolist()
+    }
 
 
 if __name__ == "__main__":
