@@ -26,8 +26,10 @@ B = np.array([[0, 2, 4, 6, 8],
 
  
 #Implement the formula MX + B
+#function with numpy
 def f(x):
-    pass
+    num = np.matmul(M, x) + B
+    print(num)
 
 #Have two function one using numpy and another not using numpy
 
@@ -64,6 +66,9 @@ def calculate(matrix_input: MatrixInput):
     
     # Calculate without NumPy
     result_no_numpy = calculate_without_numpy(M.tolist(), matrix_input.matrix, B.tolist())
+    result_numpy = f(x)
+    sigmoid_result = sigmoid(result_numpy)
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
